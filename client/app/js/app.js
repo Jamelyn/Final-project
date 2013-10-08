@@ -17,6 +17,11 @@ $(function() {
         },
         setEventListeners: function() {
             var self = this;
+            $('button.edit').click(function(ev){
+                var ebtn = $(ev.target).closest('td');
+                self.showForm();
+            });
+
             $('.menu-crud .item a').click(function(ev) {
                 var $el = $(ev.target).closest('.item');
 
@@ -75,7 +80,6 @@ $(function() {
             var $formTemplate = getTemplate('tpl-thesis-form', object);
             $('.app-content').html($formTemplate);
 
-
             $('form').unbind('submit').submit(function(ev) {
                 var thesisObject = {};
                 var inputs = $('form').serializeArray();
@@ -83,6 +87,7 @@ $(function() {
                     thesisObject[inputs[i].name] = inputs[i].value;
                 }
                 self.save(thesisObject);
+                
                 return false;
             });
 
@@ -92,12 +97,19 @@ $(function() {
         },
         displayLoadedList: function(list) {
             console.log('response', list);
+            
+            for(var i = 0; i < list.length; i++){
+            	var $listItem = list[i];
+            	$listItem._index = i;
+            	$('.thesis-list').append(getTemplate('tpl-thesis-list-item',$listItem));
+        	}
+
             //  use tpl-thesis-list-item to render each loaded list and attach it
 
         },
         save: function(object) {
             var self = this;
-
+            $.post('api/thesis',object);
         }
 
 
@@ -110,6 +122,10 @@ $(function() {
         markup = $template(context);
         return markup;
 
+    }
+
+    function editClick(){
+    	
     }
 
     app.init();

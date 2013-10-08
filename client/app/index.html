@@ -35,6 +35,9 @@
                     </div>
                 </div>
             </div>
+           
+
+
             <div class='container'>
                 <div class='row app-content'>
                 </div>
@@ -58,6 +61,7 @@
                         <tr>
                             <th>Year</th>
                             <th>Title</th>
+                            <th>Description</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -68,10 +72,11 @@
         </script>
 
         <script id="tpl-thesis-list-item" type="text/x-handlebars-template">
-            <tr data-id="{{Id}}">
+            <tr data-id="{{_index}}">
                 <td>{{Year}}</td>
                 <td>{{Title}}</td>
-                <td><a href='#'>Edit</a></td>
+                <td>{{Description}}</td>
+                <td><button class="btn btn-info edit" id="{{_index}}">Edit</button></td>
             </tr>
         </script>
 
@@ -90,11 +95,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="tite-input">Title</label>
+                        <label for="title-input">Title</label>
                         <input id='title-input' type="text" class="form-control" name='Title' placeholder="Enter title.." value='{{Title}}'>
                     </div>
                     <div class="form-group">
-                        <label for="subtite-input">Subtitle</label>
+                        <label for="subtitle-input">Subtitle</label>
                         <input id='subtitle-input' type="text" class="form-control" name='Subtitle' placeholder="Enter subtitle.." value='{{Subtitle}}'>
                     </div>
                     <div class="form-group">
@@ -108,7 +113,6 @@
                 </form>
             </div>
         </script>
-
     </body>
 </html>
 

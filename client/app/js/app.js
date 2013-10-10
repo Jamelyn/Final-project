@@ -125,7 +125,7 @@ $(function() {
                 $listItem._index = i;
                 $('.thesis-list').append(getTemplate('tpl-thesis-list-item',$listItem));
             }
-            $("tr").click(function (event){    
+            $("td").click(function (event){    
                 app.router.navigate('thesis-' + $(this).attr('data-id'), {trigger: true});
             });
 

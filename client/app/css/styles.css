@@ -5,3 +5,64 @@ body {
 .hidden {
     display: none;
 }
+
+body {
+	font-family: Century Gothic;
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.header {
+	background-color: #474747;
+}
+
+h1, h3 {
+	text-align: center;
+}
+
+h3, section {
+	font-style: italic;
+}
+
+p {
+	text-indent: 40px;
+}
+
+#web-title {
+	font-weight: bolder;
+	text-transform: uppercase;
+	font-size: 20px;
+	color: black;
+	text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+	-webkit-transition: all .2s linear;
+}
+
+#web-title:hover {
+	color: white;
+}
+
+#logo {
+	width: 30px;
+	height: 30px;
+}
+
+.item:hover{
+	font-size: 17px;
+}
+
+.user-email:hover {
+	text-decoration: line-through;
+}
+
+.navbar {
+	border: none;
+}
+
+.navbar-nav > li > a {
+	padding-top: 18px;
+	padding-bottom: 24px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+	color: white;
+}

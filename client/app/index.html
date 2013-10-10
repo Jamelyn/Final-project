@@ -1,14 +1,31 @@
 <!doctype html>
 <html>
     <head>
-        <title>Project Title</title>
+        <title>Thesis Title</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
-    <body>
+    <body background="images/coeb.png">
+        <!--<div id="myCarousel" class="carousel slide">
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            < Carousel items>
+            <div class="carousel-inner">
+                <div class="active item">…</div>
+                <div class="item">…</div>
+                            <div class="item">…</div>
+            </div>
+            <!Carousel nav>
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+        </div>-->
+
         <div id="fb-root"></div>
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar navbar-inverse navbar-fixed-top header">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,10 +33,15 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="javascript:void(0)">Project Title</a>
+
+                    <a class="navbar-brand" href="javascript:void(0)" id="web-title">
+                        <img id="logo" src="images/pup.png">
+                        <img id="logo" src="images/ce.png">
+                        Thesis Management System</a>
                 </div>
+
                 <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav menu-crud">
+                    <ul class="nav navbar-nav menu-crud" id="content">
                         <li class='menu-create item'><a href="javascript:void(0)">Create New</a></li>
                         <li class='menu-list item'><a href="javascript:void(0)">Show All</a></li>
                     </ul>
@@ -71,19 +93,19 @@
             </div>
         </script>
 
-        <script id="tpl-thesis-list-item" type="text/x-handlebars-template">
-            <tr data-id="{{Id}}">
-                <td>{{Year}}</td>
-                <td>{{Title}}</td>
-                <td>{{Description}}</td>
-                <td><button class="btn btn-info edit" id="{{_index}}">View</button></td>
+        <script class = "title-list" id="tpl-thesis-list-item" type="text/x-handlebars-template">
+            <tr>
+                <td  data-id="{{Id}}">{{Year}}</td>
+                <td  data-id="{{Id}}">{{Title}}</td>
+                <td  data-id="{{Id}}"><button class="btn btn-info edit" id="{{_index}}">View</button></td>
+                <td><button class="btn btn-info edit" id="{{_index}}">Delete</button></td>
             </tr>
         </script>
 
         <script id="tpl-thesis-view" type="text/x-handlebars-template">
-            <h1> Thesis Title: {{Title}} ({{Year}})</h1><br>
-            <h3> Subtitle: {{Subtitle}} </h3><br>
-            <h4> Description: {{Description}} </h4><br>
+            <h1> {{Title}} ({{Year}})</h1>
+            <h3> {{Subtitle}} </h3><br>
+            <section> Description: </section> <br> <p> {{Description}} </p><br>
 
             <div class="fb-comments" data-href="http://poweron-finalproject.appspot.com/thesis-{{Id}}" data-colorscheme="The color scheme used in the plugin" data-numposts="10" data-width="The pixel width of the plugin"></div>
         </script>

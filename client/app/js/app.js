@@ -128,7 +128,9 @@ $(function() {
             $("td").click(function (event){    
                 app.router.navigate('thesis-' + $(this).attr('data-id'), {trigger: true});
             });
+        },
 
+        search: function(object) {
 
         },
 
@@ -173,7 +175,7 @@ $(function() {
             '': 'onHome',
             'thesis-:id': 'onView',
             'new': 'onCreate',
-            'edit': 'onEdit',
+            'edit-:id': 'onEdit',
             'list': 'onList'
         },
 
@@ -184,6 +186,10 @@ $(function() {
        onView: function(id) {
            console.log('thesis id', id);
            $.get('api/thesis/' + id, app.showView);
+       },
+
+       onSearch: function() {
+
        },
 
        onCreate: function() {

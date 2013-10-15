@@ -47,7 +47,7 @@ p {
 }
 
 .item:hover{
-	font-size: 17px;
+	font-weight: bold;
 }
 
 .user-email:hover {
@@ -58,6 +58,10 @@ p {
 	border: none;
 }
 
+.navbar-btn {
+	margin-top: 10px;
+}
+
 .navbar-nav > li > a {
 	padding-top: 18px;
 	padding-bottom: 24px;
@@ -65,4 +69,16 @@ p {
 
 .navbar-inverse .navbar-nav > li > a {
 	color: white;
+}
+
+.span2 {
+	border-radius: 7px;
+	margin-right: 0px;
+	height: 35px;
+	padding-left: 5px;
+}
+
+.navbar-form {
+	margin-top: 5px;
+	margin-right: 0px;
 }

@@ -43,19 +43,26 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav menu-crud" id="content">
                         <li class='menu-create item'><a href="javascript:void(0)">Create New</a></li>
-                        <li class='menu-list item'><a href="javascript:void(0)">Show All</a></li>
+                        <li class='menu-list item'><a href="javascript:void(0)"><i class="glyphicon glyphicon-list"></i> Show All </a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class='menu-loading'><a href="#">Loading...</a></li>
                         <li class="menu-user dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class='user-email'></span> <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#" class='btn-logout'>Logout</a></li>
-                                <li ><a href="#">About</a></li>
+                                <li><a href="#" class='btn-logout'><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+                                <li ><a href="#"><i class="glyphicon glyphicon-star"></i> About</a></li>
                             </ul>
                         </li>
                     </ul>
+
                     <a href='#' class="btn btn-primary btn-login navbar-btn navbar-right">Log in</a>
+                    <form class="navbar-form navbar-right">    
+                        <div class="navbar-form">
+                            <input type="text" class="span2" placeholder="  Search...">
+                        </div>
+                    </form>
+
                     </div>
                 </div>
             </div>
@@ -97,14 +104,16 @@
             <tr>
                 <td  data-id="{{Id}}">{{Year}}</td>
                 <td  data-id="{{Id}}">{{Title}}</td>
-                <td  data-id="{{Id}}"><button class="btn btn-info edit" id="{{_index}}">View</button></td>
-                <td><button class="btn btn-info edit" id="{{_index}}">Delete</button></td>
+                <td  data-id="{{Id}}"><button class="btn btn-info view" id="{{_index}}">View</button></td>
+                <td> <a class="btn btn-info edit" href="#"> Edit</a>
+                <td> <a class="btn btn-info delete" href="#"><i class="glyphicon glyphicon-trash"></i> Delete</a>
             </tr>
         </script>
 
         <script id="tpl-thesis-view" type="text/x-handlebars-template">
             <h1> {{Title}} ({{Year}})</h1>
             <h3> {{Subtitle}} </h3><br>
+            <div class="fb-like" data-href="https://poweron-finalproject.appspot.com" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="standard" data-action="like" data-show-faces="true" data-send="false"></div>
             <section> Description: </section> <br> <p> {{Description}} </p><br>
 
             <div class="fb-comments" data-href="http://poweron-finalproject.appspot.com/thesis-{{Id}}" data-colorscheme="The color scheme used in the plugin" data-numposts="10" data-width="The pixel width of the plugin"></div>

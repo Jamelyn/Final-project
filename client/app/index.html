@@ -21,15 +21,14 @@
         </div>
 
         <div id="fb-root"></div>
-        <script> (function (d, s, id){
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=1420644804818112";
-                fjs.parentNode.insertBefore(js, fjs);
-            } (document, 'script', 'facebook-jssdk'));
-
-        </script>
+            <script> (function (d, s, id){
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=1420644804818112";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    } (document, 'script', 'facebook-jssdk'));
+            </script>
 
         <div class="navbar navbar-inverse navbar-fixed-top header">
             <div class="container">
@@ -98,7 +97,7 @@
                             <th>Year</th>
                             <th>Title</th>
                             <th> </th>
-
+                            <th> </th>
                         </tr>
                     </thead>
                     <tbody class='thesis-list'>
@@ -108,7 +107,7 @@
         </script>
 
         <script id="tpl-thesis-list-item" type="text/x-handlebars-template">
-            <tr data-id="{{Id}}">
+            <tr data-id="{{Id}}" class="tbl">
                 <td>{{Year}}</td>
                 <td>{{Title}}</td>
                 <td> <a class="btn btn-info view" href="javascript:void(0)" id="{{_index}}">View</a> </td>
@@ -155,7 +154,7 @@
                     
                     {{#if Id}}
                         <input id='subtitle-input' type="text" style='display:none;' name='Id' value='{{Id}}'>
-                        <button class="btn-cancel btn btn-primary">Cancel</button>
+                        <button class="cancel btn btn-primary">Cancel</button>
                     {{/if}}
 
                     <button type="submit" class="btn btn-primary">Save</button>

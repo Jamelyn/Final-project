@@ -96,7 +96,7 @@ $(function() {
             });
         },
 
-        searchThesis: function(keyword){
+        search: function(keyword){
             var self = this;
             var regex = new RegExp(".*(" + keyword + ").*", "i");
             $.get('/api/thesis', function(obj){
@@ -162,7 +162,7 @@ $(function() {
                 return false;
             });
             
-            $('.btn-cancel').click(function(){
+            $('.cancel').click(function(){
                 self.router.navigate('list', {trigger: true});
                 return false;
             });
@@ -176,7 +176,7 @@ $(function() {
                 $.get('/api/thesis', function(res) {
                     self.displayLoadedList(res);
                 });
-            }, 200);
+            }, 100);
         },
 
         displayLoadedList: function(list) {
@@ -260,9 +260,10 @@ $(function() {
 
        onSearch: function(query) {
             app.showList();
-            app.searchThesis(query, function(list) {
+            app.search(query, function(list) {
                 app.displayLoadedList(list);
             });
+            
             hidecarousel();
        },
 
@@ -272,6 +273,7 @@ $(function() {
                 app.showThesis(item);
                 FB.XFBML.parse();
             });
+
             hidecarousel();
        },
 

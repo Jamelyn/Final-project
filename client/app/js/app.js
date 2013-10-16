@@ -8,7 +8,6 @@ $(function() {
             $('.menu-loading').removeClass('hidden');
             $('.menu-user').addClass('hidden');
             $('.btn-login').addClass('hidden');
-
             $('.btn-login').attr('href', '/api/login?url=/');
             $('.btn-logout').attr('href','/api/logout?url=/');
 
@@ -34,16 +33,17 @@ $(function() {
                 if ($el.hasClass('menu-create')) {
                     self.router.navigate('new', {trigger: true});
                 }
+
             });
 
             $('.navbar-brand').click(function() {
                 self.router.navigate('', {trigger: true});
             });
 
-            $("tr").click(function (ev){
-            self.router.navigate('view', {trigger: true});   
+            $('.form-search').unbind('submit').submit(function(ev) {
+                self.router.navigate('search?=' + $('.search-input').val(), {trigger: true});
+                return false;
             });
-
         },
 
         getUser: function() {
@@ -64,11 +64,13 @@ $(function() {
                 }
             });
         },
+
         showLogin: function() {
            $('.menu-loading').addClass('hidden');
            $('.menu-user').addClass('hidden');
            $('.btn-login').removeClass('hidden');
         },
+
         showLogout: function() {
            $('.menu-crud').removeClass('hidden');
            $('.user-email').text(this.user.email);
@@ -76,79 +78,150 @@ $(function() {
            $('.btn-login').addClass('hidden');
            $('.menu-user').removeClass('hidden');
         },
+
         showHome: function() {
             $('.app-content').html('');
         },
+
         showList: function() {
             var $listTemplate = getTemplate('tpl-thesis-list');
             $('.app-content').html($listTemplate);
-            this.loadAllThesis();
         },
+
+        search: function(query, callback) {
+            $.get('/api/search/?q=' + query, {
+                returned_fields: JSON.stringify(['Title', 'Year'])
+            }, function(list) {
+                callback(list);
+            });
+        },
+
+        searchThesis: function(keyword){
+            var self = this;
+            var regex = new RegExp(".*(" + keyword + ").*", "i");
+            $.get('/api/thesis', function(obj){
+               var sorted_list = $.grep(obj, function(thesis, index){
+                    return regex.test(thesis.Title);
+               });
+               if(sorted_list.length == 0){
+                    alert('No result');
+               }
+               else{
+                    var $listTemplate = getTemplate('tpl-thesis-list');
+                    $('.app-content').html($listTemplate);
+                    _.each(sorted_list, function(item) {
+                        var $thesisItem = $(getTemplate('tpl-thesis-list-item', item));
+                        $('.thesis-list').append($thesisItem);
+                        var id = item.Id
+                        if (item.Key) {
+                            id = item.Key;
+                        }
+                        $thesisItem.find('.edit').click(function() {
+                            self.router.navigate('edit-' + id, {trigger: true});
+                        });
+                        $thesisItem.find('.view').click(function() {
+                            self.router.navigate('thesis-' + id, {trigger: true});
+                        });
+                        $thesisItem.find('.delete').click(function() {
+                            self.router.navigate('delete-' + id, {trigger: true});
+                        });
+                    });
+               }
+               $('.search-input').val('');
+            });
+        },
+
+        getThesisByID: function(id, callback) {
+            var object = {};
+            $.get('/api/thesis/' + id, function(item) {
+                callback(item);
+            });
+        },
+
+        showThesis: function(thesis) {
+            var self = this;
+            var $viewTemplate = getTemplate('tpl-thesis-view', thesis);
+            $('.app-content').html($viewTemplate);
+        },
+
         showForm: function(object) {
+            var self = this;
             if (!object) {
                 object = {};
             }
-            var self = this;
             var $formTemplate = getTemplate('tpl-thesis-form', object);
             $('.app-content').html($formTemplate);
-
-
-            $('form').unbind('submit').submit(function(ev) {
+            $('form').unbind('submit').submit(function (ev) {
                 var thesisObject = {};
                 var inputs = $('form').serializeArray();
                 for (var i = 0; i < inputs.length; i++) {
                     thesisObject[inputs[i].name] = inputs[i].value;
                 }
 
-                if($("#title-input")[0].value == ""){
-                    alert("Please insert Thesis Title!");
-                }
-
-                else{
-                   self.save(thesisObject);
-                   alert("Saved."); 
-                }
-
+                self.save(thesisObject);
+                return false;
+            });
+            
+            $('.btn-cancel').click(function(){
+                self.router.navigate('list', {trigger: true});
                 return false;
             });
 
+            self.setEventListeners();
         },
+
         loadAllThesis: function() {
-            $.get('/api/thesis', this.displayLoadedList);
+            var self = this;
+            setTimeout(function() {
+                $.get('/api/thesis', function(res) {
+                    self.displayLoadedList(res);
+                });
+            }, 200);
         },
+
         displayLoadedList: function(list) {
-            console.log('response', list);
-            //  use tpl-thesis-list-item to render each loaded list and attach it
+            var self = this;
+            _.each(list, function(item) {
+                var $thesisItem = $(getTemplate('tpl-thesis-list-item', item));
+                var id = item.Id
+                if (item.Key) {
+                    id = item.Key;
+                }
 
-            for(var i = 0; i < list.length; i++){
-                var $listItem = list[i];
-                $listItem._index = i;
-                $('.thesis-list').append(getTemplate('tpl-thesis-list-item',$listItem));
-            }
-            $("td").click(function (event){    
-                app.router.navigate('thesis-' + $(this).attr('data-id'), {trigger: true});
+                $thesisItem.find('.view').click(function() {
+                    self.router.navigate('thesis-' + id, {trigger: true});
+                });
+
+                $thesisItem.find('.edit').click(function() {
+                    self.router.navigate('edit-' + id, {trigger: true});
+                });
+               
+                $thesisItem.find('.delete').click(function() {
+                    self.router.navigate('delete-' + id, {trigger: true});
+                });
+
+                $('.thesis-list').append($thesisItem);
             });
-        },
-
-        search: function(object) {
-
         },
 
         save: function(object) {
             var self = this;
-
-            $.post('api/thesis',object);
+            $.post('api/thesis', object, function(res) {
+                self.router.navigate('list', {trigger: true});
+            });
+            self.showList();
         },
 
-        showView: function(object) {
-            $('.app-content').html(getTemplate('tpl-thesis-view', object));
-            if (typeof(FB) !== 'undefined') {
-                FB.XFBML.parse();
-            }
-            else{
-                comment(document, 'script', 'facebook-jssdk');
-            }
-        }
+        deleteThesis: function(id){
+            var self = this;
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/thesis/' + id,
+                success: function() {
+                    self.router.navigate('list', {trigger: true});
+                }
+            });
+        },
 
     };
 
@@ -158,54 +231,77 @@ $(function() {
         $template = Handlebars.compile(template.html());
         markup = $template(context);
         return markup;
-
-    }
-
-    function comment(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=1420644804818112";
-            fjs.parentNode.insertBefore(js, fjs);
     };
+
+    function hidecarousel(){
+        $('.carousel').addClass("hidden");
+    };
+
+    function showcarousel(){
+        $('.carousel').removeClass("hidden");
+    }
 
 
     var Router = Backbone.Router.extend({
         routes: {
             '': 'onHome',
+            'search?=:query': 'onSearch',
             'thesis-:id': 'onView',
             'new': 'onCreate',
             'edit-:id': 'onEdit',
-            'list': 'onList'
+            'list': 'onList',
+            'delete-:id': 'onDelete'
         },
 
        onHome: function() {
             app.showHome();
+            showcarousel();
+       },
+
+       onSearch: function(query) {
+            app.showList();
+            app.searchThesis(query, function(list) {
+                app.displayLoadedList(list);
+            });
+            hidecarousel();
        },
 
        onView: function(id) {
            console.log('thesis id', id);
-           $.get('api/thesis/' + id, app.showView);
-       },
-
-       onSearch: function() {
-
+            app.getThesisByID(id, function(item) {
+                app.showThesis(item);
+                FB.XFBML.parse();
+            });
+            hidecarousel();
        },
 
        onCreate: function() {
             app.showForm();
+            hidecarousel();
        },
 
-       onEdit: function() {
-
+       onEdit: function(id) {
+            app.getThesisByID(id, function(item) {
+                app.showForm(item);
+            });
        },
 
        onList: function() {
             app.showList();
-       }
+            app.loadAllThesis();
+            hidecarousel();
+       },
+
+       onDelete: function(id) {
+            app.deleteThesis(id);
+       },
 
     });
-    app.init();
 
+    $('.carousel').carousel({
+        interval: 2000
+    })
+
+    app.init();
 
 });

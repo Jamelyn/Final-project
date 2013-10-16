@@ -6,24 +6,30 @@
         <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body background="images/coeb.png">
-        <!--<div id="myCarousel" class="carousel slide">
+        <div id="myCarousel" class="carousel slide">
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                 <li data-target="#myCarousel" data-slide-to="1"></li>
                 <li data-target="#myCarousel" data-slide-to="2"></li>
             </ol>
-            < Carousel items>
             <div class="carousel-inner">
-                <div class="active item">…</div>
-                <div class="item">…</div>
-                            <div class="item">…</div>
+                <div class="active item"><img src="images/1.png"></div>
+                <div class="item"><img src="images/2.png"></div>
+                <div class="item"><img src="images/3.png"></div>
             </div>
             <!Carousel nav>
-            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-        </div>-->
+        </div>
 
         <div id="fb-root"></div>
+        <script> (function (d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=1420644804818112";
+                fjs.parentNode.insertBefore(js, fjs);
+            } (document, 'script', 'facebook-jssdk'));
+
+        </script>
 
         <div class="navbar navbar-inverse navbar-fixed-top header">
             <div class="container">
@@ -38,7 +44,7 @@
                         <img id="logo" src="images/pup.png">
                         <img id="logo" src="images/ce.png">
                         Thesis Management System</a>
-                </div>
+                </div> 
 
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav menu-crud" id="content">
@@ -57,15 +63,15 @@
                     </ul>
 
                     <a href='#' class="btn btn-primary btn-login navbar-btn navbar-right">Log in</a>
-                    <form class="navbar-form navbar-right">    
-                        <div class="navbar-form">
-                            <input type="text" class="span2" placeholder="  Search...">
+                    <form class="navbar-form navbar-right form-search" role="search" _lpchecked="1">
+                        <div class="form-group">
+                          <input type="text" class="form-control search-input" placeholder="Search...">
                         </div>
                     </form>
 
-                    </div>
                 </div>
             </div>
+        </div>
             <div class='container'>
                 <div class='row app-content'>
                 </div>
@@ -91,7 +97,8 @@
                         <tr>
                             <th>Year</th>
                             <th>Title</th>
-                            <th></th>
+                            <th> </th>
+
                         </tr>
                     </thead>
                     <tbody class='thesis-list'>
@@ -100,13 +107,13 @@
             </div>
         </script>
 
-        <script class = "title-list" id="tpl-thesis-list-item" type="text/x-handlebars-template">
-            <tr>
-                <td  data-id="{{Id}}">{{Year}}</td>
-                <td  data-id="{{Id}}">{{Title}}</td>
-                <td  data-id="{{Id}}"><button class="btn btn-info view" id="{{_index}}">View</button></td>
-                <td> <a class="btn btn-info edit" href="#"> Edit</a>
-                <td> <a class="btn btn-info delete" href="#"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+        <script id="tpl-thesis-list-item" type="text/x-handlebars-template">
+            <tr data-id="{{Id}}">
+                <td>{{Year}}</td>
+                <td>{{Title}}</td>
+                <td> <a class="btn btn-info view" href="javascript:void(0)" id="{{_index}}">View</a> </td>
+                <td> <a class="btn btn-info edit" href="javascript:void(0)" id="{{_index}}">Edit</a> </td>
+                <td> <a class="btn btn-info delete" href="javascript:void(0)" id="{{_index}}"><i class="glyphicon glyphicon-trash"></i> Delete</a> </td>
             </tr>
         </script>
 
@@ -145,10 +152,13 @@
                         <label for="description-input">Description</label>
                         <textarea id='description-input' name='Description' class="form-control" rows="3">{{Description}}</textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    
                     {{#if Id}}
-                    <button class="btn btn-default">Delete</button>
+                        <input id='subtitle-input' type="text" style='display:none;' name='Id' value='{{Id}}'>
+                        <button class="btn-cancel btn btn-primary">Cancel</button>
                     {{/if}}
+
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
         </script>
